@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CatalogoSexo extends Model
-{
+class CatalogoSexo extends Model {
+    use HasFactory;
+
     protected $table = 'catalogo_sexo';
 
     protected $fillable = [
