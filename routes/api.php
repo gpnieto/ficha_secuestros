@@ -11,6 +11,7 @@ use App\Http\Controllers\CatalogoNarizController;
 use App\Http\Controllers\CatalogoOjosController;
 use App\Http\Controllers\CatalogoSexoController;
 use App\Http\Controllers\CatalogoTezController;
+use App\Http\Controllers\FichaRegistroController;
 use App\Models\CatalogoComplexion;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::apiResource('nariz', CatalogoNarizController::class);
 Route::apiResource('boca', CatalogoBocaController::class);
 Route::apiResource('menton', CatalogoMentonController::class);
 Route::apiResource('cara', CatalogoCaraController::class);
+Route::apiResource('registros', FichaRegistroController::class);
 // auth:sanctum
 // auth('sanctum')->user()
 
