@@ -21,7 +21,7 @@ class CatalogoCaraController extends Controller
         return response()->json(new CatalogoCaraResource($cara), 201);
     }
 
-    public function show(CatalogoCaraResource $cara)
+    public function show(CatalogoCara $cara)
     {
        return $cara
             ? response()->json(new CatalogoCaraResource($cara))
