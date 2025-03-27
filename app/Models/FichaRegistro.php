@@ -38,7 +38,7 @@ class FichaRegistro extends Model
         'fotografia'
     ];
 
-     public static function boot() {
+     /*public static function boot() {
         parent::boot();
 
         static::creating(function ($ficha) {
@@ -53,11 +53,14 @@ class FichaRegistro extends Model
                 $ficha->fotografia = "default.jpg";
             }
         });
-     }
+     }*/
+
+    public $attributes = [
+        'fotografia' => 'SIN DATO',
+    ];
 
      // Obtener la URL de la imagen
-     public function getFotografiaUrlAttribute()
-     {
+     public function getFotografiaUrlAttribute() {
         return Storage::url($this->fotografia);
      }
 

@@ -8,35 +8,27 @@ use App\Models\FichaRegistro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class FichaRegistroController extends Controller
-{
-    public function index()
-    {
+class FichaRegistroController extends Controller {
+    public function index() {
         return response()->json(FichaRegistroResource::collection(FichaRegistro::all()));
     }
 
-    public function store(CreateFichaRegistroRequest $request)
-    {
-        $data = $request->all();
-
+    public function store(CreateFichaRegistroRequest $request) {
         // Subir imagen
-        if ($request->hasFile('fotografia')) {
-            $data['fotografia'] = $request->file('fotografia')->store('fichas', 'public');
-        }
-
+//        if ($request->hasFile('fotografia')) {
+//            $data['fotografia'] = $request->file('fotografia')->store('fichas', 'public');
+//        }
         $registro = FichaRegistro::create($request->validated());
         return response()->json(new FichaRegistroResource($registro), 201);
     }
 
-    public function show(FichaRegistro $fichaRegistro)
-    {
-        return $fichaRegistro
-                      ? response()->json(new FichaRegistroResource($fichaRegistro))
-                      : response()->json(['message' => 'Registro no encontrado'], 404);
+    public function show(FichaRegistro $registro) {
+        return $registro
+            ? response()->json(new FichaRegistroResource($registro))
+            : response()->json(['message' => 'Registro no encontrado'], 404);
     }
 
-    public function update(CreateFichaRegistroRequest $request, FichaRegistro $fichaRegistro)
-    {
+    public function update(CreateFichaRegistroRequest $request, FichaRegistro $fichaRegistro) {
         $data = $request->all();
 
         // Manejo de imagen
@@ -54,8 +46,7 @@ class FichaRegistroController extends Controller
 
     }
 
-    public function destroy(FichaRegistro $fichaRegistro)
-    {
+    public function destroy(FichaRegistro $fichaRegistro) {
         // Eliminar la imagen si no es la predeterminada
         if ($fichaRegistro->fotografia && $fichaRegistro->ficha_fotografia !== 'default.jpg') {
             Storage::disk('public')->delete($fichaRegistro->fotografia);
@@ -63,5 +54,11 @@ class FichaRegistroController extends Controller
 
         $fichaRegistro->delete();
         return response()->json([], 204);
+    }
+
+    public function uploadPicture(Request $request, FichaRegistro $registro){
+        dd($request);
+        $test = Storage::disk('public')->putFile($request->file('image'));
+        dd($test);
     }
 }

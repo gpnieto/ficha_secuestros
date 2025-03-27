@@ -15,19 +15,27 @@ use App\Http\Controllers\FichaRegistroController;
 use App\Models\CatalogoComplexion;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('sexo', CatalogoSexoController::class);
-Route::apiResource('complexion', CatalogoComplexionController::class);
-Route::apiResource('tez', CatalogoTezController::class);
-Route::apiResource('frente', CatalogoFrenteController::class);
-Route::apiResource('ceja', CatalogoCejasController::class);
-Route::apiResource('ojo', CatalogoOjosController::class);
-Route::apiResource('nariz', CatalogoNarizController::class);
-Route::apiResource('boca', CatalogoBocaController::class);
-Route::apiResource('menton', CatalogoMentonController::class);
-Route::apiResource('cara', CatalogoCaraController::class);
-Route::apiResource('registros', FichaRegistroController::class);
+
+Route::middleware('auth:sanctum')->group(function (){
+   Route::apiResources([
+       'sexo' => CatalogoSexoController::class,
+       'complexion' => CatalogoComplexionController::class,
+       'tez' => CatalogoTezController::class,
+       'frente' => CatalogoFrenteController::class,
+       'ceja' => CatalogoCejasController::class,
+       'ojo' => CatalogoOjosController::class,
+       'nariz' => CatalogoNarizController::class,
+       'boca' => CatalogoBocaController::class,
+       'menton' => CatalogoMentonController::class,
+       'cara' => CatalogoCaraController::class,
+       'registros' => FichaRegistroController::class
+   ]);
+
+    Route::put('registros/{registro}/fotografia', [FichaRegistroController::class, 'uploadPicture']);
+});
+
 // auth:sanctum
-// auth('sanctum')->user()
+// auth('sanctum')->user(
 
 Route::prefix('auth')->group(function (){
     Route::middleware('auth:sanctum')->group(function (){

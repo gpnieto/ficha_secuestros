@@ -15,7 +15,8 @@ class FichaRegistroResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->nuc,
+            'id' => $this->id,
+            'nuc' => $this->nuc,
             'apellido_paterno' => $this->apellido_paterno,
             'apellido_materno' => $this->apellido_materno,
             'nombre' => $this->nombre,
