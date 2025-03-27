@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
-class FichaRegistro extends Model
-{
+class FichaRegistro extends Model {
+    use SoftDeletes;
     protected $table = 'fichas_registro';
 
     protected $fillable = [
