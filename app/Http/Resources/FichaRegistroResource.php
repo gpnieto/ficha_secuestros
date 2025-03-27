@@ -41,7 +41,7 @@ class FichaRegistroResource extends JsonResource
             'barba_bigote' => $this->barba_bigote,
             'señas_particulares' => $this->señas_particulares,
             'ropa' => $this->ropa,
-            'fotografia' => $this->fotografia
+            'fotografia' => asset($this->fotografia)
         ];
     }
 

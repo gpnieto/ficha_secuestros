@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFichaRegistroRequest;
+use App\Http\Requests\ValidateImageRequest;
 use App\Http\Resources\FichaRegistroResource;
 use App\Models\FichaRegistro;
 use Illuminate\Http\Request;
@@ -56,9 +57,11 @@ class FichaRegistroController extends Controller {
         return response()->json([], 204);
     }
 
-    public function uploadPicture(Request $request, FichaRegistro $registro){
-        dd($request);
-        $test = Storage::disk('public')->putFile($request->file('image'));
-        dd($test);
+    public function uploadPicture(FichaRegistro $registro, ValidateImageRequest $request){
+        $registro->update([
+            'fotografia' => $request->file('image')->store('fichas', 'public')
+        ]);
+
+        return response()->json(new FichaRegistroResource($registro), 201);
     }
 }

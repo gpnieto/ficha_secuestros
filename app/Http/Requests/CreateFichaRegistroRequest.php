@@ -47,7 +47,6 @@ class CreateFichaRegistroRequest extends FormRequest
             'barba_bigote' => 'nullable|string|max:255',
             'señas_particulares' => 'nullable|string|max:255',
             'ropa' => 'nullable|string|max:255',
-//            'fotografia' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
@@ -57,9 +56,6 @@ class CreateFichaRegistroRequest extends FormRequest
             'edad.integer'         => 'La edad debe ser un número entero.',
             'edad.min'             => 'La edad no puede ser menor a 0.',
             'edad.max'             => 'La edad no puede ser mayor a 120.',
-//            'fotografia.image'     => 'El archivo debe ser una imagen.',
-//            'fotografia.mimes'     => 'Solo se permiten imágenes en formato JPG, JPEG o PNG.',
-//            'fotografia.max'       => 'El tamaño máximo de la imagen es 2MB.',
         ];
     }
 }
