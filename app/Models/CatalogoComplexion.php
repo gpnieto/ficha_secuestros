@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CatalogoComplexion extends Model
 {
+    protected $primaryKey = 'id_complexion';
+
     protected $table = 'catalogo_complexion';
 
     protected $fillable = [

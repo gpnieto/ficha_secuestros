@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCatalogoComplexionRequest extends FormRequest
+class CreateCatalogoBocaRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -15,13 +15,13 @@ class CreateCatalogoComplexionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'descripcion' => 'required|string|unique:catalogo_complexion,descripcion'
+            'descripcion' => 'required|string|unique:catalogo_boca,descripcion'
         ];
     }
-
-    public function messages(): array {
+    public function messages(): array
+    {
         return [
-            'descripcion.unique' => 'La complexión ya existe'
+            'descripcion.unique' => 'el tipo de boca ya existe'
         ];
     }
 }
