@@ -39,22 +39,6 @@ class FichaRegistro extends Model {
         'fotografia'
     ];
 
-     /*public static function boot() {
-        parent::boot();
-
-        static::creating(function ($ficha) {
-            foreach ($ficha->fillable as $campo) {
-                if(empty($ficha->campo) && $campo != 'fotografia') {
-                    $ficha->campo = "SIN DATO";
-                }
-            }
-
-            // imagen por defecto si no se envia imagen
-            if (empty($ficha->fotografia)) {
-                $ficha->fotografia = "default.jpg";
-            }
-        });
-     }*/
 
     public $attributes = [
         'fotografia' => 'SIN DATO',

@@ -64,4 +64,20 @@ class FichaRegistroController extends Controller {
 
         return response()->json(new FichaRegistroResource($registro), 201);
     }
+
+    public function listRecords($cantidad) {
+        try {
+            // Obtener un número especificado de registros
+            $registros = FichaRegistro::limit($cantidad)->get();
+
+            // Verificar si se encontraron registros
+            return $registros->isNotEmpty()
+                ? response()->json(FichaRegistroResource::collection($registro))
+                : response()->json(['message' => 'No se encontraron registros que listar'], 404);
+            }
+        catch (\Throwable $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+    }
 }
