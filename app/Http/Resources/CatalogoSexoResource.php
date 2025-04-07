@@ -11,7 +11,5 @@ class CatalogoSexoResource extends JsonResource {
             'id' => $this->id_sexo,
             'descripcion' => $this->descripcion
         ];
-
-
     }
 }
