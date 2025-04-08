@@ -17,7 +17,18 @@ use Intervention\Image\Laravel\Facades\Image;
 class FichaRegistroController extends Controller {
     public function index(Request $request) {
         $limit = $request->query('limit', 10);
-        $registers = FichaRegistro::latest()->paginate($limit);
+        $search = $request->query('search', '');
+
+        $query = FichaRegistro::query()->latest();
+
+        if($search){
+            $query->where('nuc', 'like', "%$search%");
+            $query->orWhere('nombre', 'like', "%$search%");
+            $query->orWhere('apellido_paterno', 'like', "%$search%");
+            $query->orWhere('apellido_materno', 'like', "%$search%");
+        }
+
+        $registers = $query->paginate($limit);
 
         $resource = FichaRegistroResource::collection($registers);
 

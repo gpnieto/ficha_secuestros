@@ -46,6 +46,11 @@ class FichaRegistro extends Model {
         'fotografia' => 'SIN DATO',
     ];
 
+    protected $casts = [
+        'fecha_nacimiento' => 'date',
+        'fecha_secuestro' => 'date',
+    ];
+
     // Obtener la URL de la imagen
     public function getFotografiaUrlAttribute() {
         return Storage::url($this->fotografia);
