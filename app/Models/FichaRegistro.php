@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class FichaRegistro extends Model {
     use SoftDeletes;
+
     protected $table = 'fichas_registro';
 
     protected $fillable = [
@@ -17,7 +19,7 @@ class FichaRegistro extends Model {
         'nombre',
         'fecha_secuestro',
         'lugar_secuestro',
-        'sexo',
+        'catalogo_sexo_id',
         'edad',
         'fecha_nacimiento',
         'complexion',
@@ -44,14 +46,16 @@ class FichaRegistro extends Model {
         'fotografia' => 'SIN DATO',
     ];
 
-     // Obtener la URL de la imagen
-     public function getFotografiaUrlAttribute() {
+    // Obtener la URL de la imagen
+    public function getFotografiaUrlAttribute() {
         return Storage::url($this->fotografia);
-     }
+    }
 
-     protected $dates = [
-      'fecha_secuestro', 'fecha_nacimiento',
-     ];
+    protected $dates = [
+        'fecha_secuestro', 'fecha_nacimiento',
+    ];
 
-
+    public function sexo() : BelongsTo {
+        return $this->belongsTo(CatalogoSexo::class, 'catalogo_sexo_id', 'id_sexo');
+    }
 }

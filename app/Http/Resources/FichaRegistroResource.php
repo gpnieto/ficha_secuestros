@@ -22,7 +22,7 @@ class FichaRegistroResource extends JsonResource
             'nombre' => $this->nombre,
             'fecha_secuestro' => $this->fecha_secuestro,
             'lugar_secuestro' => $this->lugar_secuestro,
-            'sexo' => $this->sexo,
+            'sexo' => $this->sexo->descripcion ?? 'Sin datos',
             'edad' => $this->edad,
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'complexion' => $this->complexion,

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class ValidateImageRequest extends FormRequest {
     public function rules(): array {
         return [
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ];
     }
 

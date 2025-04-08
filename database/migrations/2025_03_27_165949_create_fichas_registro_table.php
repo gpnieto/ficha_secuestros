@@ -19,8 +19,12 @@ return new class extends Migration
             $table->string('nombre')->nullable();
             $table->date('fecha_secuestro')->nullable();
             $table->string('lugar_secuestro')->nullable();
-            $table->string('sexo')->nullable();
-            $table->integer('edad')->nullable();
+
+            $table->foreignId('catalogo_sexo_id')
+                ->nullable()
+                ->constrained('catalogo_sexo', 'id_sexo');
+
+            $table->string('edad')->nullable();
             $table->date('fecha_nacimiento')->nullable();
             $table->string('complexion')->nullable();
             $table->string('tez')->nullable();

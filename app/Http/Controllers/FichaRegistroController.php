@@ -6,8 +6,13 @@ use App\Http\Requests\CreateFichaRegistroRequest;
 use App\Http\Requests\ValidateImageRequest;
 use App\Http\Resources\FichaRegistroResource;
 use App\Models\FichaRegistro;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Laravel\Facades\Image;
 
 class FichaRegistroController extends Controller {
     public function index() {
@@ -58,11 +63,26 @@ class FichaRegistroController extends Controller {
     }
 
     public function uploadPicture(FichaRegistro $registro, ValidateImageRequest $request){
-        $registro->update([
-            'fotografia' => $request->file('image')->store('fichas', 'public')
-        ]);
+        $file = $request->file('image');
+        ini_set('memory_limit', '2048M');
+        $size = config('image.storage_size');
 
-        return response()->json(new FichaRegistroResource($registro), 201);
+        if($file && $file->isValid()){
+            $image = Image::read($file->path())->resize($size, $size);
+            $storagePath = 'fichas/' . Str::random() . '.' . $file->getClientOriginalExtension();
+
+            $saved = Storage::disk('public')->put($storagePath, $image->encodeByExtension($file->getClientOriginalExtension(), quality: 100));
+
+            if($saved){
+                $registro->update([
+                    'fotografia' => $storagePath
+                ]);
+            }
+
+            return response()->json(new FichaRegistroResource($registro), 201);
+        }
+
+        return response()->json(['message' => 'Imagen no valida'], 403);
     }
 
     public function listRecords($cantidad) {
