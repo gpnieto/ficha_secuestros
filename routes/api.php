@@ -32,7 +32,6 @@ Route::middleware('auth:sanctum')->group(function (){
    ]);
 
     Route::post('registros/{registro}/fotografia', [FichaRegistroController::class, 'uploadPicture']);
-    Route::get('registros/{cantidad}/list', [FichaRegistroController::class, 'listRecords']);
 
 });
 

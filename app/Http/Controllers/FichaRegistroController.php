@@ -15,8 +15,13 @@ use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Laravel\Facades\Image;
 
 class FichaRegistroController extends Controller {
-    public function index() {
-        return response()->json(FichaRegistroResource::collection(FichaRegistro::all()));
+    public function index(Request $request) {
+        $limit = $request->query('limit', 10);
+        $registers = FichaRegistro::latest()->paginate($limit);
+
+        $resource = FichaRegistroResource::collection($registers);
+
+        return response()->json($resource->response()->getData(true));
     }
 
     public function store(CreateFichaRegistroRequest $request) {
@@ -83,21 +88,5 @@ class FichaRegistroController extends Controller {
         }
 
         return response()->json(['message' => 'Imagen no valida'], 403);
-    }
-
-    public function listRecords($cantidad) {
-        try {
-            // Obtener un número especificado de registros
-            $registros = FichaRegistro::limit($cantidad)->get();
-
-            // Verificar si se encontraron registros
-            return $registros->isNotEmpty()
-                ? response()->json(FichaRegistroResource::collection($registro))
-                : response()->json(['message' => 'No se encontraron registros que listar'], 404);
-            }
-        catch (\Throwable $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
-            }
-
     }
 }
