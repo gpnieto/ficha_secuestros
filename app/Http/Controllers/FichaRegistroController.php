@@ -91,10 +91,11 @@ class FichaRegistroController extends Controller {
     public function uploadPicture(FichaRegistro $registro, ValidateImageRequest $request){
         $file = $request->file('image');
         ini_set('memory_limit', '2048M');
-        $size = config('image.storage_size');
+        $size = config('image.storage_sizes.width');
+        $height = config('image.storage_sizes.height');
 
         if($file && $file->isValid()){
-            $image = Image::read($file->path())->resize($size, $size);
+            $image = Image::read($file->path())->resize($size, $height);
             $storagePath = 'fichas/' . Str::random() . '.' . $file->getClientOriginalExtension();
 
             $saved = Storage::disk('public')->put($storagePath, $image->encodeByExtension($file->getClientOriginalExtension(), quality: 100));

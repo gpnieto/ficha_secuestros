@@ -37,7 +37,10 @@ return [
     |    encoding images.
     */
 
-    'storage_size' => 75,
+    'storage_sizes' => [
+        'width' => 200,
+        'height' => 270,
+    ],
 
     'options' => [
         'autoOrientation' => true,
