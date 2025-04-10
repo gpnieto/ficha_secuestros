@@ -60,22 +60,9 @@ class FichaRegistroController extends Controller {
             : response()->json(['message' => 'Registro no encontrado'], 404);
     }
 
-    public function update(CreateFichaRegistroRequest $request, FichaRegistro $fichaRegistro) {
-        $data = $request->all();
-
-        // Manejo de imagen
-        if ($request->hasFile('fotografia')) {
-            // Eliminar la imagen anterior
-            if ($fichaRegistro->fotografia && $fichaRegistro->fotografia !== 'default.jpg') {
-                Storage::disk('public')->delete($fichaRegistro->fotografia);
-            }
-
-            $data['fotografia'] = $request->file('fotografia')->store('fichas', 'public');
-        }
-
-        $fichaRegistro->update($data);
-        return response()->json(new FichaRegistroResource($fichaRegistro));
-
+    public function update(Request $request, FichaRegistro $registro) {
+        $registro->update($request->all());
+        return response()->json(new FichaRegistroResource($registro));
     }
 
     public function destroy(FichaRegistro $fichaRegistro) {
