@@ -21,11 +21,21 @@ class FichaRegistroController extends Controller {
 
         $query = FichaRegistro::query()->latest();
 
-        if($search){
-            $query->where('nuc', 'like', "%$search%");
-            $query->orWhere('nombre', 'like', "%$search%");
-            $query->orWhere('apellido_paterno', 'like', "%$search%");
-            $query->orWhere('apellido_materno', 'like', "%$search%");
+        logs()->info($search);
+
+        if ($search) {
+            $terms = explode(' ', $search);
+
+            $query->where(function($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $q->where(function($innerQuery) use ($term) {
+                        $innerQuery->where('nuc', 'LIKE', "%$term%")
+                            ->orWhere('nombre', 'LIKE', "%$term%")
+                            ->orWhere('apellido_paterno', 'LIKE', "%$term%")
+                            ->orWhere('apellido_materno', 'LIKE', "%$term%");
+                    });
+                }
+            });
         }
 
         $registers = $query->paginate($limit);
