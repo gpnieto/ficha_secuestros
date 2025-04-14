@@ -8,8 +8,6 @@ use App\Http\Requests\ValidateImageRequest;
 use App\Http\Resources\RegisterResource;
 use App\Models\FichaRegistro;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
@@ -52,11 +50,6 @@ class RegisterController extends Controller {
 
     public function show(FichaRegistro $registro) {
         return response()->json(new RegisterResource($registro));
-
-
-        Hash::check('password', $user->password);
-
-        boolean Auth::attempt('email', 'password');
     }
 
     public function update(Request $request, FichaRegistro $registro) {
