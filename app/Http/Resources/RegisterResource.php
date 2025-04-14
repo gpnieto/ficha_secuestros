@@ -6,18 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Storage;
 
-class FichaRegistroResource extends JsonResource
-{
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
-
-
-    public function toArray(Request $request): array
-    {
-        $defaultPath = str_replace('\\','/', public_path(($this->catalogo_sexo_id == 1) ? 'img/default_male.png' : 'img/default_female.png'));
+class RegisterResource extends JsonResource {
+    public function toArray(Request $request): array {
+        $defaultPath = str_replace('\\', '/', public_path(($this->catalogo_sexo_id == 1) ? 'img/default_male.png' : 'img/default_female.png'));
         $defaultContent = file_get_contents($defaultPath);
 
         $hasImage = $this->fotografia
@@ -51,7 +42,7 @@ class FichaRegistroResource extends JsonResource
             'barbaBigote' => $this->barba_bigote ?? 'Sin datos',
             'señasParticulares' => $this->señas_particulares ?? 'Sin datos',
             'ropa' => $this->ropa ?? 'Sin datos',
-            'fotografia' => asset($hasImage ? $this->fotografia : (($this->id_sexo == 1) ? 'img/default_male.png' : 'img/default_female.png')),
+            'fotografia' => asset($hasImage ? $this->fotografia : (($this->catalogo_sexo_id == 1) ? 'img/default_male.png' : 'img/default_female.png')),
             'encodedImage' => $hasImage
                 ? 'data:image/' . pathinfo($this->fotografia, PATHINFO_EXTENSION) . ';base64,' . base64_encode(Storage::disk('public')->get($this->fotografia))
                 : 'data:image/png;base64,' . base64_encode($defaultContent),

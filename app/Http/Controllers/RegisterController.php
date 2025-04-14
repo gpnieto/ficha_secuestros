@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\FileManager;
 use App\Http\Requests\CreateFichaRegistroRequest;
 use App\Http\Requests\ValidateImageRequest;
-use App\Http\Resources\FichaRegistroResource;
+use App\Http\Resources\RegisterResource;
 use App\Models\FichaRegistro;
-use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Laravel\Facades\Image;
 
-class FichaRegistroController extends Controller {
+class RegisterController extends Controller {
     public function index(Request $request) {
         $limit = $request->query('limit', 10);
         $search = $request->query('search', '');
 
         $query = FichaRegistro::query()->latest();
-
-        logs()->info($search);
 
         if ($search) {
             $terms = explode(' ', $search);
@@ -40,38 +38,40 @@ class FichaRegistroController extends Controller {
 
         $registers = $query->paginate($limit);
 
-        $resource = FichaRegistroResource::collection($registers);
+        $resource = RegisterResource::collection($registers);
 
         return response()->json($resource->response()->getData(true));
     }
 
     public function store(CreateFichaRegistroRequest $request) {
-        // Subir imagen
-//        if ($request->hasFile('fotografia')) {
-//            $data['fotografia'] = $request->file('fotografia')->store('fichas', 'public');
-//        }
-        $registro = FichaRegistro::create($request->validated());
-        return response()->json(new FichaRegistroResource($registro), 201);
+        return response()->json(
+            new RegisterResource(FichaRegistro::create($request->validated())),
+            201
+        );
     }
 
     public function show(FichaRegistro $registro) {
-        return $registro
-            ? response()->json(new FichaRegistroResource($registro))
-            : response()->json(['message' => 'Registro no encontrado'], 404);
+        return response()->json(new RegisterResource($registro));
+
+
+        Hash::check('password', $user->password);
+
+        boolean Auth::attempt('email', 'password');
     }
 
     public function update(Request $request, FichaRegistro $registro) {
         $registro->update($request->all());
-        return response()->json(new FichaRegistroResource($registro));
+        return response()->json(new RegisterResource($registro));
     }
 
-    public function destroy(FichaRegistro $fichaRegistro) {
-        // Eliminar la imagen si no es la predeterminada
-        if ($fichaRegistro->fotografia && $fichaRegistro->ficha_fotografia !== 'default.jpg') {
-            Storage::disk('public')->delete($fichaRegistro->fotografia);
+    public function destroy(FichaRegistro $registro) {
+        FileManager::uploadFile($registro);
+
+        if ($registro->fotografia && $registro->ficha_fotografia !== 'default.jpg') {
+            Storage::disk('public')->delete($registro->fotografia);
         }
 
-        $fichaRegistro->delete();
+        $registro->delete();
         return response()->json([], 204);
     }
 
@@ -93,7 +93,7 @@ class FichaRegistroController extends Controller {
                 ]);
             }
 
-            return response()->json(new FichaRegistroResource($registro), 201);
+            return response()->json(new RegisterResource($registro), 201);
         }
 
         return response()->json(['message' => 'Imagen no valida'], 403);

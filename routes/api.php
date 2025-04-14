@@ -11,7 +11,7 @@ use App\Http\Controllers\CatalogoNarizController;
 use App\Http\Controllers\CatalogoOjosController;
 use App\Http\Controllers\CatalogoSexoController;
 use App\Http\Controllers\CatalogoTezController;
-use App\Http\Controllers\FichaRegistroController;
+use App\Http\Controllers\RegisterController;
 use App\Models\CatalogoComplexion;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +28,10 @@ Route::middleware('auth:sanctum')->group(function (){
        'boca' => CatalogoBocaController::class,
        'menton' => CatalogoMentonController::class,
        'cara' => CatalogoCaraController::class,
-       'registros' => FichaRegistroController::class
+       'registros' => RegisterController::class
    ]);
 
-    Route::post('registros/{registro}/fotografia', [FichaRegistroController::class, 'uploadPicture']);
+    Route::post('registros/{registro}/fotografia', [RegisterController::class, 'uploadPicture']);
 
 });
 
