@@ -16,7 +16,7 @@ class CatalogoSexo extends Model {
         'descripcion',
     ];
 
-    // public function fichaRegistro() {
-    //     return $this->hasMany(FichaRegistro::class, 'id_sexo');
-    // }
+     public function fichasDeRegistro() {
+         return $this->hasMany(FichaRegistro::class, 'catalogo_sexo_id');
+     }
 }

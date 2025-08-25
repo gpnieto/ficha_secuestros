@@ -1,0 +1,5 @@
+GET {{api}}/registros/3
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###

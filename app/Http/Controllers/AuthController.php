@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class AuthController extends Controller {
-    public function login(LoginRequest $request) {
+
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
+    public function login(LoginRequest $request) : JsonResponse {
         $credentials = $request->only('email', 'password');
         $remember = $request->input('remember', false);
         $user = User::where('email', $credentials['email'])->first();
@@ -26,7 +33,7 @@ class AuthController extends Controller {
             $user->tokens()->delete();
             return response()->json([
                 'data' => [
-                    'user' => $user,
+                    'user' => $user->only('name', 'email'),
                     'token' => $user->createToken('auth_token', ['*'], $expires_at)->plainTextToken
                 ]
             ]);
@@ -39,8 +46,25 @@ class AuthController extends Controller {
         }
     }
 
-    public function logout(Request $request) {
-        auth('sanctum')->user()->tokens()->delete();
-        return response()->json();
+
+    /**
+     * @return JsonResponse
+     */
+    public function logout() : JsonResponse {
+        try {
+            auth('sanctum')->user()->tokens()->delete();
+
+            return response()->json([
+                'result' => true,
+                'message' => 'Sesión cerrada correctamente'
+            ]);
+        }catch (\Exception $e){
+            Log::warning($e->getMessage());
+
+            return response()->json([
+                'result' => false,
+                'message' => 'El usuario no esta autenticado'
+            ]);
+        }
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\CatalogoOjosController;
 use App\Http\Controllers\CatalogoSexoController;
 use App\Http\Controllers\CatalogoTezController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 use App\Models\CatalogoComplexion;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function (){
    ]);
 
     Route::post('registros/{registro}/fotografia', [RegisterController::class, 'uploadPicture']);
+
+    Route::get('dashboard/estadisticas', [DashboardController::class, 'stats']);
 
 });
 
