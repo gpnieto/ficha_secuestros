@@ -1,4 +1,4 @@
-GET {{api}}/registros/3
+GET {{api}}/registros/8
 Accept: application/json
 Authorization: Bearer {{token}}
 

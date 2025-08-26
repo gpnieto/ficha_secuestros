@@ -28,6 +28,7 @@ class CreateFichaRegistroRequest extends FormRequest
             'nombre' => 'nullable|string|max:255',
             'fecha_secuestro' => 'nullable|date',
             'lugar_secuestro' => 'nullable|string|max:255',
+            'curp' => 'nullable|string|max:255',
             'catalogo_sexo_id' => 'nullable|integer|max:255',
             'edad' => 'nullable|string|min:0|max:120',
             'fecha_nacimiento' => 'nullable|date',

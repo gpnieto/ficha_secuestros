@@ -19,6 +19,7 @@ class FichaRegistro extends Model {
         'nombre',
         'fecha_secuestro',
         'lugar_secuestro',
+        'curp',
         'catalogo_sexo_id',
         'edad',
         'fecha_nacimiento',
@@ -44,6 +45,8 @@ class FichaRegistro extends Model {
 
     public $attributes = [
         'fotografia' => 'SIN DATO',
+        'curp' => 'SIN DATO',
+        'barba_bigote' => false,
     ];
 
     protected $casts = [

@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('descripcion_labios')->nullable();
             $table->string('descripcion_menton')->nullable();
             $table->string('descripcion_cara')->nullable();
-            $table->string('barba_bigote')->nullable();
+            $table->boolean('barba_bigote')->nullable()->default(false);
             $table->string('señas_particulares')->nullable();
             $table->string('ropa')->nullable();
             $table->string('fotografia')->default('default.jpg');
